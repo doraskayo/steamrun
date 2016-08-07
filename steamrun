@@ -1,0 +1,2 @@
+#!/bin/bash
+$HOME/.local/share/Steam/ubuntu12_32/steam-runtime/run.sh "$@"
