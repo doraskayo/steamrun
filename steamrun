@@ -1,2 +1,13 @@
 #!/bin/bash
+
+# Apply library workarounds
+if [[ ! $disable_workarounds ]]; then
+  libraries=('/usr/$LIB/libstdc++.so.6'
+             '/usr/$LIB/libgcc_s.so.1'
+             '/usr/$LIB/libxcb.so.1'
+             '/usr/$LIB/libgpg-error.so')
+  export LD_PRELOAD="${libraries[@]}"
+fi
+
+# Execute the program in the Steam Runtime
 $HOME/.local/share/Steam/ubuntu12_32/steam-runtime/run.sh "$@"
