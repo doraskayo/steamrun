@@ -2,38 +2,36 @@
 
 # Exit silently when no arguments are specified
 if [[ $# -lt 1 ]]; then
-  exit
+    exit
 fi
 
 version='0.2.0'
 
-print_usage() {
-  printf '%s\n\n' 'steamrun [OPTIONS...] [PROGRAM [OPTIONS...]]'
-
-  printf '%s\t%s\n'                                \
-                '-h' 'Show this help'              \
-                '-d' 'Disable library workarounds' \
+print_help() {
+    printf '%s\n\n' 'steamrun [OPTIONS...] [PROGRAM [OPTIONS...]]'
+    printf '%s\t%s\n'                               \
+                '-h' 'Show this help'               \
+                '-d' 'Disable library workarounds'  \
                 '-v' 'Display version information'
-  exit
 }
 
 # Parse options
 while getopts ":dhv" opt; do
-  case $opt in
-    d)
-      disable_workarounds=true
-      ;;
-    h)
-      print_usage
-      exit;;
-    v)
-      printf '%s\n' "steamrun $version"
-      exit;;
-    \?)
-      printf '%s\n' "Invalid option: -$OPTARG"
-      print_usage
-      exit;;
-  esac
+    case $opt in
+        d)
+            disable_workarounds=true
+            ;;
+        h)
+            print_help
+            exit;;
+        v)
+            printf '%s\n' "steamrun $version"
+            exit;;
+        \?)
+            printf '%s\n' "Invalid option: -$OPTARG"
+            print_help
+            exit;;
+    esac
 done
 
 # Consume parsed options
@@ -41,11 +39,11 @@ shift "$((OPTIND - 1))"
 
 # Apply library workarounds, unless disabled
 if [[ ! $disable_workarounds ]]; then
-  libraries=('/usr/$LIB/libstdc++.so.6'
-             '/usr/$LIB/libgcc_s.so.1'
-             '/usr/$LIB/libxcb.so.1'
-             '/usr/$LIB/libgpg-error.so')
-  export LD_PRELOAD="${libraries[@]}"
+    libraries=('/usr/$LIB/libstdc++.so.6'
+               '/usr/$LIB/libgcc_s.so.1'
+               '/usr/$LIB/libxcb.so.1'
+               '/usr/$LIB/libgpg-error.so')
+    export LD_PRELOAD="${libraries[@]}"
 fi
 
 # Execute the program in the Steam Runtime
