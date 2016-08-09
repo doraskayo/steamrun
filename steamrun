@@ -5,7 +5,7 @@ if [[ $# -lt 1 ]]; then
     exit
 fi
 
-version='0.2.0'
+version='0.3.0'
 
 print_help() {
     printf '%s\n\n' 'steamrun [OPTIONS...] [PROGRAM [OPTIONS...]]'
