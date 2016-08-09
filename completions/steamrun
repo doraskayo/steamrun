@@ -1,0 +1,23 @@
+# steamrun completion                                      -*- shell-script -*-
+
+_steamrun()
+{
+  local cur prev words cword
+  _init_completion -n = || return
+
+  # Default to completion of sourced programs
+  for (( i=1; i <= COMP_CWORD; i++ )); do
+    if [[ ${COMP_WORDS[i]} != -* ]]; then
+        local root_command=${COMP_WORDS[i]}
+        _command_offset $i
+        return
+    fi
+  done
+
+  # Complete command-line options when '-' is specified
+  if [[ $cur == -* ]]; then
+      local opts='-d -h -v'
+      COMPREPLY=( $( compgen -W "${opts}" -- "$cur" ) )
+  fi
+} &&
+complete -F _steamrun steamrun
